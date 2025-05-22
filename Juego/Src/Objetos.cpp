@@ -28,10 +28,27 @@ void Objetos::setDestR(int x, int y, int w, int h){
     destR.h = h;
 }
 
-void Objetos::Render(){
-    
-    SDL_RenderTexture(renderer, texture, &srcR, &destR);
+void Objetos::Render() {
+    SDL_Texture* currentTexture = hovering && hoverTexture ? hoverTexture : texture;
+    SDL_RenderTexture(renderer, currentTexture, &srcR, &destR);
 }
+
+
+bool Objetos::isClicked(int mouseX, int mouseY){
+    return mouseX >= destR.x && mouseX <= destR.x + destR.w &&
+               mouseY >= destR.y && mouseY <= destR.y + destR.h;
+    
+}
+
+void Objetos::setHoverTexture(const char* archivo, SDL_Renderer* ren) {
+    hoverTexture = Texturas::cargarTextura(archivo, ren);
+}
+
+void Objetos::setHovering(bool isHovering) {
+    hovering = isHovering;
+}
+
+
 
 void Objetos::clean() {
     if (texture) {
