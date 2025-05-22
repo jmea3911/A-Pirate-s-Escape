@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		98A01F992DD6DD1A0087CC1B /* SDL3.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A01F982DD6DD1A0087CC1B /* SDL3.xcframework */; };
+		98A01FA12DD78C7C0087CC1B /* SDL3_image.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98A01FA02DD78C7C0087CC1B /* SDL3_image.xcframework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		98A01F8B2DD6DBFF0087CC1B /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -20,6 +25,8 @@
 
 /* Begin PBXFileReference section */
 		98A01F8D2DD6DBFF0087CC1B /* Juego */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Juego; sourceTree = BUILT_PRODUCTS_DIR; };
+		98A01F982DD6DD1A0087CC1B /* SDL3.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SDL3.xcframework; path = ../../../../Library/Frameworks/SDL3.xcframework; sourceTree = "<group>"; };
+		98A01FA02DD78C7C0087CC1B /* SDL3_image.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SDL3_image.xcframework; path = ../../../../Library/Frameworks/SDL3_image.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,6 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98A01F992DD6DD1A0087CC1B /* SDL3.xcframework in Frameworks */,
+				98A01FA12DD78C7C0087CC1B /* SDL3_image.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				98A01F8F2DD6DBFF0087CC1B /* Juego */,
+				98A01F972DD6DD1A0087CC1B /* Frameworks */,
 				98A01F8E2DD6DBFF0087CC1B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,6 +65,15 @@
 				98A01F8D2DD6DBFF0087CC1B /* Juego */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		98A01F972DD6DD1A0087CC1B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				98A01FA02DD78C7C0087CC1B /* SDL3_image.xcframework */,
+				98A01F982DD6DD1A0087CC1B /* SDL3.xcframework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,7 +115,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 98A01F882DD6DBFF0087CC1B /* Build configuration list for PBXProject "Juego" */;
+			buildConfigurationList = 98A01F882DD6DBFF0087CC1B /* Build configuration list for PBXProject "APirate'sEscape" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -260,7 +279,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		98A01F882DD6DBFF0087CC1B /* Build configuration list for PBXProject "Juego" */ = {
+		98A01F882DD6DBFF0087CC1B /* Build configuration list for PBXProject "APirate'sEscape" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				98A01F922DD6DBFF0087CC1B /* Debug */,

@@ -1,0 +1,41 @@
+
+#include "Objetos.h"
+#include "Texturas.h"
+
+Objetos::Objetos(const char* archivo, SDL_Renderer* ren){
+    
+    renderer = ren;
+    texture = Texturas::cargarTextura(archivo, renderer);
+    
+    float w = 0, h = 0;
+    SDL_GetTextureSize(texture, &w, &h);
+
+    srcR = { 0.0f, 0.0f, (float)w, (float)h };
+    destR = srcR;
+    
+    
+     
+}
+
+void Objetos::Update(){
+    
+}
+
+void Objetos::setDestR(int x, int y, int w, int h){
+    destR.x = x;
+    destR.y = y;
+    destR.w = w;
+    destR.h = h;
+}
+
+void Objetos::Render(){
+    
+    SDL_RenderTexture(renderer, texture, &srcR, &destR);
+}
+
+void Objetos::clean() {
+    if (texture) {
+        SDL_DestroyTexture(texture);
+        texture = nullptr;
+    }
+}
