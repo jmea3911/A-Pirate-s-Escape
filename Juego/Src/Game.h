@@ -5,6 +5,7 @@
 #include "SDL3_image/SDL_image.h"
 #include <iostream>
 #include "Texturas.h"
+#include "GameState.h"
 
 
 class Game
@@ -20,6 +21,9 @@ public:
 	bool running() { return isRunning; }
 	void render();
 	void clean();
+    SDL_Renderer* getRenderer();
+    void changeState(GameState* newState);
+    
     
 
 private:
@@ -28,5 +32,6 @@ private:
 	SDL_Window *window;
 	SDL_Renderer *renderer;
     SDL_FRect srcR, destR;
+    GameState* currentState;
     
 };

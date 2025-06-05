@@ -31,6 +31,7 @@ private:
     SDL_Texture* texture;
     SDL_FRect srcR{};
     SDL_FRect destR{};
-    SDL_Renderer* renderer; 
+    SDL_Renderer* renderer;
+    Game* game;
     
 };

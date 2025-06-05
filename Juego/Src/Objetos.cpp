@@ -2,10 +2,22 @@
 #include "Objetos.h"
 #include "Texturas.h"
 
+
 Objetos::Objetos(const char* archivo, SDL_Renderer* ren){
     
+ 
     renderer = ren;
     texture = Texturas::cargarTextura(archivo, renderer);
+    
+    if (!texture) {
+        std::cout << "Fallo al cargar textura: " << archivo << " - " << SDL_GetError() << std::endl;
+    }
+    
+    if (!ren) {
+        std::cout << "Renderer recibido en Objetos es nullptr!" << std::endl;
+    }
+
+
     
     float w = 0, h = 0;
     SDL_GetTextureSize(texture, &w, &h);

@@ -13,11 +13,10 @@ int main(int argc, char *argv[])
         
     }
     
-    int width = 800;
-
+  
     
 	game = new Game();
-	game->init("GameWindow", width, 600, false);
+	game->init("GameWindow", 800, 600, false);
 
 
 	while (game->running())
