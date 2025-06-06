@@ -5,10 +5,12 @@
 #include "Objetos.h"
 #include "Game.h"
 
-class Juego : public GameState {
+class Settings : public GameState {
 private:
-    Objetos* barco;
+    Objetos* UI;
     Objetos* fondo;
+    Objetos* equis;
+    
     
 
 public:
@@ -17,11 +19,5 @@ public:
     void update(Game* game) override;
     void render(Game* game) override;
     void onExit(Game* game) override;
-    
-    int barcoX = 390;      // posición inicial
-    int barcoY = 450;
-    int barcoVel = 1;      // velocidad en píxeles/frame
-    bool moviendoDerecha = true;
 };
-
 

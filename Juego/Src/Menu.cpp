@@ -3,7 +3,7 @@
 #include "Game.h"     // para usar game->changeState(...)
 #include "juego.h"  // el siguiente estado
 #include <iostream>
-
+#include "Settings.h"
 
 
 
@@ -57,14 +57,13 @@ void Menu::handleEvents(Game* game, SDL_Event& event) {
                 
                 // Verifica si se presionó el botón
                 if (start->isClicked(mouseX, mouseY)) {
-                    std::cout << "Botón presionado" << std::endl;
                     game->changeState(new Juego());
                 }
                 else if (load->isClicked(mouseX, mouseY)) {
-                    std::cout << "Botón presionado" << std::endl;
+                //codigo del guardado
                 }
                 else if (settings->isClicked(mouseX, mouseY)) {
-                    std::cout << "Botón presionado" << std::endl;
+                    game->changeState(new Settings());
                 }
             }
             break;
@@ -103,16 +102,16 @@ void Menu::render(Game* game) {
     
 
     
-    cofre->setDestR(240, 380, 270, 220);
+    cofre->setDestR(290, 380, 270, 220);
     cofre->Render();
     
-    titulo->setDestR(180, 10, 440, 220);
+    titulo->setDestR(230, 10, 440, 220);
     titulo->Render();
     
-    start->setDestR(220, 300, 140, 116);
+    start->setDestR(270, 300, 140, 116);
     start->Render();
     
-    load->setDestR(440, 300, 140, 116);
+    load->setDestR(490, 300, 140, 116);
     load->Render();
     
     settings->setDestR(15, 543, 130, 56);
