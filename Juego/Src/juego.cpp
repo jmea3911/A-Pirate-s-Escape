@@ -40,7 +40,9 @@ void Juego::handleEvents(Game* game, SDL_Event& event) {
 }
 
 void Juego::update(Game* game) {
-    // No hay lógica en el menú por ahora
+    
+    
+  
       const bool* teclas = SDL_GetKeyboardState(nullptr);
 
         if (teclas[SDL_SCANCODE_LEFT]) {
@@ -51,6 +53,28 @@ void Juego::update(Game* game) {
             barcoX += barcoVel;
             if (barcoX > 900 - 170) barcoX = 900 - 170; // 900 ancho ventana - 80 ancho barco
         }
+    
+    Uint64 ahora = SDL_GetTicks();
+    if (ahora - tiempoObstaculo > intervaloObstaculo) {
+        
+        
+        int margen = 90;
+        int xRandom = margen + (rand() % (900 - 2 * margen - 80));
+
+        //int xRandom = rand() % (900 - 80);
+        obstaculos.push_back(new Obstaculos("/Users/jmea/Documents/Juego/Juego/assets/boulder.png", game->getRenderer(), xRandom, -80, 0.25f));
+        tiempoObstaculo = ahora;
+    }
+    
+    for (auto it = obstaculos.begin(); it != obstaculos.end(); ) {
+        (*it)->update();
+        if ((*it)->estaFueraDePantalla(600)) {
+            delete *it;
+            it = obstaculos.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 void Juego::render(Game* game) {
@@ -65,6 +89,10 @@ void Juego::render(Game* game) {
     
     barco->setDestR(barcoX, barcoY, 80, 120);
     barco->Render();
+    
+    for (auto& obst : obstaculos) {
+            obst->render();
+        }
     
     
 

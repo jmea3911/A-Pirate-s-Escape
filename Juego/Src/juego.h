@@ -4,11 +4,17 @@
 #include "GameState.h"
 #include "Objetos.h"
 #include "Game.h"
+#include <vector>
+#include "Obstaculos.h"
+#include <cstdlib>   // para rand() y srand()
+#include <ctime>     // para time()
+
 
 class Juego : public GameState {
 private:
     Objetos* barco;
     Objetos* fondo;
+    
     
 
 public:
@@ -22,6 +28,11 @@ public:
     int barcoY = 450;
     int barcoVel = 1;      // velocidad en píxeles/frame
     bool moviendoDerecha = true;
+    
+    std::vector<Obstaculos*> obstaculos;
+    
+    Uint64 tiempoObstaculo = 0;
+    Uint64 intervaloObstaculo = 1000;
 };
 
 
