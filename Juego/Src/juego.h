@@ -32,7 +32,8 @@ public:
     std::vector<Obstaculos*> obstaculos;
     
     Uint64 tiempoObstaculo = 0;
-    Uint64 intervaloObstaculo = 1000;
+    Uint64 intervaloObstaculo = 1500;
+    int variacionAleatoria = 0;
 };
 
 

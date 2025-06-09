@@ -5,6 +5,7 @@
 #include <iostream>
 //#include "ECS.h"
 //#include "Components.h"
+#include "gameOver.h"
 
 
 
@@ -39,6 +40,14 @@ void Juego::handleEvents(Game* game, SDL_Event& event) {
 
 }
 
+bool colisiona(const SDL_Rect& a, const SDL_Rect& b) {
+    return a.x < b.x + b.w &&
+           a.x + a.w > b.x &&
+           a.y < b.y + b.h &&
+           a.y + a.h > b.y;
+}
+
+
 void Juego::update(Game* game) {
     
     
@@ -52,19 +61,52 @@ void Juego::update(Game* game) {
         if (teclas[SDL_SCANCODE_RIGHT]) {
             barcoX += barcoVel;
             if (barcoX > 900 - 170) barcoX = 900 - 170; // 900 ancho ventana - 80 ancho barco
+            
+        }
+    
+    
+    // Rectángulo del barco
+        SDL_Rect rectBarco = { barcoX, barcoY, 80, 120 };
+
+        // Generar obstáculos (omitido aquí...)
+
+        // Actualizar y chequear colisión
+        for (auto it = obstaculos.begin(); it != obstaculos.end(); ) {
+            (*it)->update();
+
+            if (colisiona(rectBarco, (*it)->getRect())) {
+                
+                
+                game->changeState(new GameOver());
+                return;
+            }
+
+            if ((*it)->estaFueraDePantalla(600)) {
+                delete *it;
+                it = obstaculos.erase(it);
+            } else {
+                ++it;
+            }
         }
     
     Uint64 ahora = SDL_GetTicks();
-    if (ahora - tiempoObstaculo > intervaloObstaculo) {
+    if (ahora - tiempoObstaculo > intervaloObstaculo + variacionAleatoria) {
         
         
         int margen = 90;
         int xRandom = margen + (rand() % (900 - 2 * margen - 80));
+        
+        const char* ruta = rand() % 2 == 0
+                ? "/Users/jmea/Documents/Juego/Juego/assets/boulder.png"
+                : "/Users/jmea/Documents/Juego/Juego/assets/barril.png";
 
-        //int xRandom = rand() % (900 - 80);
-        obstaculos.push_back(new Obstaculos("/Users/jmea/Documents/Juego/Juego/assets/boulder.png", game->getRenderer(), xRandom, -80, 0.25f));
+            obstaculos.push_back(new Obstaculos(ruta, game->getRenderer(), xRandom, -80, 0.25f));
+        
         tiempoObstaculo = ahora;
+        variacionAleatoria = rand() % 1000;
     }
+    
+    
     
     for (auto it = obstaculos.begin(); it != obstaculos.end(); ) {
         (*it)->update();
@@ -75,6 +117,9 @@ void Juego::update(Game* game) {
             ++it;
         }
     }
+    
+    
+
 }
 
 void Juego::render(Game* game) {

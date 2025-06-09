@@ -108,10 +108,10 @@ void Menu::render(Game* game) {
     titulo->setDestR(230, 10, 440, 220);
     titulo->Render();
     
-    start->setDestR(270, 300, 140, 116);
+    start->setDestR(290, 300, 140, 116);
     start->Render();
     
-    load->setDestR(490, 300, 140, 116);
+    load->setDestR(470, 300, 140, 116);
     load->Render();
     
     settings->setDestR(15, 543, 130, 56);
