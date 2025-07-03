@@ -8,22 +8,22 @@
 
 
 void Menu::init(Game* game) {
-    fondo = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/Ocean.png", game->getRenderer());
+    fondo = new Objetos("assets/Ocean.png", game->getRenderer());
    
 
-    start = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/startGame.png", game->getRenderer());
+    start = new Objetos("assets/startGame.png", game->getRenderer());
     
-    start->setHoverTexture("/Users/jmea/Documents/Juego/Juego/assets/startSelc.png", game->getRenderer());
+    start->setHoverTexture("assets/startSelc.png", game->getRenderer());
     
-    cofre = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/cofre.png", game->getRenderer());
+    cofre = new Objetos("assets/cofre.png", game->getRenderer());
     
-    titulo = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/TituloJuego.png", game->getRenderer());
+    titulo = new Objetos("assets/TituloJuego.png", game->getRenderer());
     
-    load = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/loadGame.png", game->getRenderer());
-    load->setHoverTexture("/Users/jmea/Documents/Juego/Juego/assets/loadSelc.png", game->getRenderer());
+    load = new Objetos("assets/loadGame.png", game->getRenderer());
+    load->setHoverTexture("assets/loadSelc.png", game->getRenderer());
     
-    settings = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/settings.png", game->getRenderer());
-    settings->setHoverTexture("/Users/jmea/Documents/Juego/Juego/assets/settingsSelc.png", game->getRenderer());
+    settings = new Objetos("assets/settings.png", game->getRenderer());
+    settings->setHoverTexture("assets/settingsSelc.png", game->getRenderer());
 }
 
 void Menu::handleEvents(Game* game, SDL_Event& event) {
@@ -96,25 +96,25 @@ void Menu::render(Game* game) {
     SDL_PollEvent(&event);
 
     
-    fondo->setDestR(0, 0, 1200, 600);
+    fondo->setDestR(0, 0, 2400, 1200);
     fondo->Render();
     
     
 
     
-    cofre->setDestR(290, 380, 270, 220);
+    cofre->setDestR(580, 760, 540, 440);
     cofre->Render();
     
-    titulo->setDestR(230, 10, 440, 220);
+    titulo->setDestR(460, 20, 880, 440);
     titulo->Render();
     
-    start->setDestR(290, 300, 140, 116);
+    start->setDestR(580, 600, 280, 232);
     start->Render();
     
-    load->setDestR(470, 300, 140, 116);
+    load->setDestR(940, 600, 280, 232);
     load->Render();
     
-    settings->setDestR(15, 543, 130, 56);
+    settings->setDestR(30, 1086, 260, 112);
     settings->Render();
     
     

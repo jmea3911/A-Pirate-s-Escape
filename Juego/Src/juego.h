@@ -24,9 +24,9 @@ public:
     void render(Game* game) override;
     void onExit(Game* game) override;
     
-    int barcoX = 390;      // posición inicial
-    int barcoY = 450;
-    int barcoVel = 1;      // velocidad en píxeles/frame
+    int barcoX = 780;      // posición inicial
+    int barcoY = 900;
+    int barcoVel = 3;      // velocidad en píxeles/frame
     bool moviendoDerecha = true;
     
     std::vector<Obstaculos*> obstaculos;

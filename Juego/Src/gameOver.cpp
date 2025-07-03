@@ -9,20 +9,20 @@
 
 void GameOver::init(Game* game) {
     
-    fondo = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/Ocean.png", game->getRenderer());
+    fondo = new Objetos("assets/Ocean.png", game->getRenderer());
     
-    menu = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/mnMenu.png", game->getRenderer());
+    menu = new Objetos("assets/mnMenu.png", game->getRenderer());
    
 
-    shipWreck = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/shipwreck.png", game->getRenderer());
+    shipWreck = new Objetos("assets/shipwreck.png", game->getRenderer());
     
-    menu->setHoverTexture("/Users/jmea/Documents/Juego/Juego/assets/mainMenu.png", game->getRenderer());
+    menu->setHoverTexture("assets/mainMenu.png", game->getRenderer());
     
-    gameOver = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/gameOver.png", game->getRenderer());
+    gameOver = new Objetos("assets/gameOver.png", game->getRenderer());
     
-    start = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/startGame.png", game->getRenderer());
+    start = new Objetos("assets/startGame.png", game->getRenderer());
     
-    start->setHoverTexture("/Users/jmea/Documents/Juego/Juego/assets/startSelc.png", game->getRenderer());
+    start->setHoverTexture("assets/startSelc.png", game->getRenderer());
     
     
     
@@ -78,20 +78,20 @@ void GameOver::render(Game* game) {
     SDL_PollEvent(&event);
 
     
-    fondo->setDestR(0, 0, 1200, 600);
+    fondo->setDestR(0, 0, 2400, 1200);
     
     fondo->Render();
     
-    gameOver->setDestR(158, 80, 585, 141);
+    gameOver->setDestR(316, 160, 1170, 282);
     gameOver->Render();
     
-    shipWreck->setDestR(270, 330, 360, 360);
+    shipWreck->setDestR(540, 660, 720, 720);
     shipWreck->Render();
     
-    start->setDestR(290, 300, 140, 116);
+    start->setDestR(590, 600, 280, 232);
     start->Render();
     
-    menu->setDestR(470, 300, 140, 116);
+    menu->setDestR(940, 600, 280, 232);
     menu->Render();
     
     

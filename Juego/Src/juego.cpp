@@ -12,8 +12,8 @@
 
 void Juego::init(Game* game) {
     
-    barco = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/barcoPirata.png", game->getRenderer());
-    fondo = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/fondoJuego.png", game->getRenderer());
+    barco = new Objetos("assets/barcoPirata.png", game->getRenderer());
+    fondo = new Objetos("assets/fondoJuego.png", game->getRenderer());
     
 }
 
@@ -56,17 +56,17 @@ void Juego::update(Game* game) {
 
         if (teclas[SDL_SCANCODE_LEFT]) {
             barcoX -= barcoVel;
-            if (barcoX < 90) barcoX = 90; // evitar que se salga de la pantalla
+            if (barcoX < 180) barcoX = 180; // evitar que se salga de la pantalla
         }
         if (teclas[SDL_SCANCODE_RIGHT]) {
             barcoX += barcoVel;
-            if (barcoX > 900 - 170) barcoX = 900 - 170; // 900 ancho ventana - 80 ancho barco
+            if (barcoX > 1800 - 340) barcoX = 1800 - 340; // 900 ancho ventana - 80 ancho barco
             
         }
     
     
     // Rectángulo del barco
-        SDL_Rect rectBarco = { barcoX, barcoY, 80, 120 };
+        SDL_Rect rectBarco = { barcoX + 20, barcoY + 30, 120, 180 };
 
         // Generar obstáculos (omitido aquí...)
 
@@ -81,7 +81,7 @@ void Juego::update(Game* game) {
                 return;
             }
 
-            if ((*it)->estaFueraDePantalla(600)) {
+            if ((*it)->estaFueraDePantalla(1200)) {
                 delete *it;
                 it = obstaculos.erase(it);
             } else {
@@ -93,14 +93,14 @@ void Juego::update(Game* game) {
     if (ahora - tiempoObstaculo > intervaloObstaculo + variacionAleatoria) {
         
         
-        int margen = 90;
-        int xRandom = margen + (rand() % (900 - 2 * margen - 80));
+        int margen = 180;
+        int xRandom = margen + (rand() % (1800 - 2 * margen - 160));
         
         const char* ruta = rand() % 2 == 0
-                ? "/Users/jmea/Documents/Juego/Juego/assets/boulder.png"
-                : "/Users/jmea/Documents/Juego/Juego/assets/barril.png";
+                ? "assets/boulder.png"
+                : "assets/barril.png";
 
-            obstaculos.push_back(new Obstaculos(ruta, game->getRenderer(), xRandom, -80, 0.25f));
+            obstaculos.push_back(new Obstaculos(ruta, game->getRenderer(), xRandom, -80, 1.0f));
         
         tiempoObstaculo = ahora;
         variacionAleatoria = rand() % 1000;
@@ -110,7 +110,7 @@ void Juego::update(Game* game) {
     
     for (auto it = obstaculos.begin(); it != obstaculos.end(); ) {
         (*it)->update();
-        if ((*it)->estaFueraDePantalla(600)) {
+        if ((*it)->estaFueraDePantalla(1200)) {
             delete *it;
             it = obstaculos.erase(it);
         } else {
@@ -129,10 +129,10 @@ void Juego::render(Game* game) {
     SDL_Event event;
     SDL_PollEvent(&event);
     
-    fondo->setDestR(0, 0, 900, 600);
+    fondo->setDestR(0, 0, 1800, 1200);
     fondo->Render();
     
-    barco->setDestR(barcoX, barcoY, 80, 120);
+    barco->setDestR(barcoX, barcoY, 160, 240);
     barco->Render();
     
     for (auto& obst : obstaculos) {

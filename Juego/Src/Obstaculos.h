@@ -18,7 +18,7 @@ private:
     int x;
     float posY;
     float velocidad;
-    int ancho = 80;
-    int alto = 80;
+    int ancho = 160;
+    int alto = 160;
 };
 

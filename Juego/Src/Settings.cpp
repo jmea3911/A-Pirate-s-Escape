@@ -8,12 +8,12 @@
 
 
 void Settings::init(Game* game) {
-    fondo = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/Ocean.png", game->getRenderer());
+    fondo = new Objetos("assets/Ocean.png", game->getRenderer());
    
 
-    UI = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/settingsUI.png", game->getRenderer());
+    UI = new Objetos("assets/settingsUI.png", game->getRenderer());
     
-    equis = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/xBoton.png", game->getRenderer());
+    equis = new Objetos("assets/xBoton.png", game->getRenderer());
     
     
 }
@@ -60,13 +60,13 @@ void Settings::render(Game* game) {
     SDL_PollEvent(&event);
 
     
-    fondo->setDestR(0, 0, 1200, 600);
+    fondo->setDestR(0, 0, 2400, 1200);
     fondo->Render();
     
-    UI->setDestR(309, 100, 283, 400);
+    UI->setDestR(618, 200, 566, 800);
     UI->Render();
     
-    equis->setDestR(315, 106, 35, 35);
+    equis->setDestR(630, 212, 70, 70);
     equis->Render();
     
     

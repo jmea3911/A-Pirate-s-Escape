@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
   
     
 	game = new Game();
-	game->init("GameWindow", 900, 600, false);
+	game->init("GameWindow", 1800, 1200, false);
 
 
 	while (game->running())
