@@ -6,8 +6,11 @@
 #include "Game.h"
 #include <vector>
 #include "Obstaculos.h"
+#include "proyectil.h"
 #include <cstdlib>   // para rand() y srand()
 #include <ctime>     // para time()
+#include <algorithm>
+
 
 
 class Juego : public GameState {
@@ -30,10 +33,12 @@ public:
     bool moviendoDerecha = true;
     
     std::vector<Obstaculos*> obstaculos;
-    
+    std::vector<proyectil> proyectiles;
+    SDL_Renderer *renderer;
     Uint64 tiempoObstaculo = 0;
     Uint64 intervaloObstaculo = 1500;
     int variacionAleatoria = 0;
+    SDL_Rect rectBarco;
 };
 
 

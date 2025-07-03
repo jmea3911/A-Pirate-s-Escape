@@ -10,6 +10,8 @@
 
 
 
+
+
 void Juego::init(Game* game) {
     
     barco = new Objetos("assets/barcoPirata.png", game->getRenderer());
@@ -33,6 +35,15 @@ void Juego::handleEvents(Game* game, SDL_Event& event) {
 //                case SDL_SCANCODE_D:
 //                    barcoX += barcoVel;
 //                    break;
+                case SDL_SCANCODE_SPACE: {
+        // 👈 Llaves aquí
+        int proyectilX = rectBarco.x + rectBarco.w / 2 - 5;
+        int proyectilY = rectBarco.y;
+
+        proyectiles.push_back(proyectil(proyectilX, proyectilY));
+        break;
+    }
+
                 default:
                     break;
             }
@@ -63,10 +74,25 @@ void Juego::update(Game* game) {
             if (barcoX > 1800 - 340) barcoX = 1800 - 340; // 900 ancho ventana - 80 ancho barco
             
         }
+
+        // Rectángulo del barco
+     rectBarco = { barcoX + 20, barcoY + 30, 120, 180 };
+
+        // Mover todos los proyectiles
+        for (auto& proyectil : proyectiles) {
+            proyectil.mover();
+        }
+
+// Eliminar los proyectiles que salieron de la pantalla
+        proyectiles.erase(
+        std::remove_if(proyectiles.begin(), proyectiles.end(),
+                   [](const proyectil& p) { return p.estaFueraDePantalla(); }),
+        proyectiles.end());
+
     
     
-    // Rectángulo del barco
-        SDL_Rect rectBarco = { barcoX + 20, barcoY + 30, 120, 180 };
+    
+        
 
         // Generar obstáculos (omitido aquí...)
 
@@ -138,12 +164,12 @@ void Juego::render(Game* game) {
     for (auto& obst : obstaculos) {
             obst->render();
         }
-    
-    
 
-    
-    
-    
+    for (auto& proyectil : proyectiles) {
+        proyectil.render(game->getRenderer());
+    }
+
+  
     
 }
 
