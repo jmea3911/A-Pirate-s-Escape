@@ -143,6 +143,41 @@ void Juego::update(Game* game) {
             ++it;
         }
     }
+
+    // Verificar colisión de proyectiles con obstáculos
+for (auto itProyectil = proyectiles.begin(); itProyectil != proyectiles.end(); ) {
+    bool impacto = false;
+
+    for (auto itObstaculo = obstaculos.begin(); itObstaculo != obstaculos.end(); ) {
+
+        // Adaptar SDL_FRect del proyectil a SDL_Rect para usar la función colisiona
+        SDL_Rect rectProyectil = { 
+            static_cast<int>(itProyectil->rect.x),
+            static_cast<int>(itProyectil->rect.y),
+            static_cast<int>(itProyectil->rect.w),
+            static_cast<int>(itProyectil->rect.h)
+        };
+
+        if (colisiona(rectProyectil, (*itObstaculo)->getRect())) {
+            // Eliminar obstáculo
+            delete *itObstaculo;
+            itObstaculo = obstaculos.erase(itObstaculo);
+
+            // Eliminar proyectil
+            itProyectil = proyectiles.erase(itProyectil);
+
+            impacto = true;
+            break; // Salir de este ciclo porque el proyectil ya se eliminó
+        } else {
+            ++itObstaculo;
+        }
+    }
+
+    if (!impacto) {
+        ++itProyectil;
+    }
+}
+
     
     
 
