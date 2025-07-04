@@ -4,6 +4,13 @@
 #include "GameState.h"
 #include "Objetos.h"
 #include "Game.h"
+#include <SDL3_mixer/SDL_mixer.h>
+
+extern bool audioActivo;
+
+
+
+
 
 class Menu : public GameState {
 private:
@@ -15,6 +22,7 @@ private:
     Objetos* load;
     Objetos* settings;
     
+    
 
 public:
     void init(Game* game) override;
@@ -22,5 +30,9 @@ public:
     void update(Game* game) override;
     void render(Game* game) override;
     void onExit(Game* game) override;
+    //Mix_Music* musicaFondo = nullptr;
+    Mix_Chunk* selec = nullptr;
+    bool audioActivo = true;
+
 };
 

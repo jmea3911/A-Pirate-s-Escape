@@ -6,6 +6,10 @@
 #include <iostream>
 #include "Texturas.h"
 #include "GameState.h"
+#include <SDL3_mixer/SDL_mixer.h>
+
+extern Mix_Music* musicaFondo;
+
 
 
 class Game

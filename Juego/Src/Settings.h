@@ -4,12 +4,14 @@
 #include "GameState.h"
 #include "Objetos.h"
 #include "Game.h"
+#include "Menu.h"  // el siguiente estado
 
 class Settings : public GameState {
 private:
     Objetos* UI;
     Objetos* fondo;
     Objetos* equis;
+    Objetos* mute;
     
     
 
@@ -19,5 +21,6 @@ public:
     void update(Game* game) override;
     void render(Game* game) override;
     void onExit(Game* game) override;
+    Mix_Chunk* selec = nullptr;
 };
 

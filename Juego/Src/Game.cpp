@@ -5,13 +5,7 @@
 
 using namespace std;
 
-
-//Objetos* fondo;
-//Objetos* cofre;
-//Objetos* titulo;
-//Objetos* start;
-//Objetos* load;
-//Objetos* settings;
+Mix_Music* musicaFondo = nullptr;
 
 
 
@@ -20,7 +14,13 @@ Game::Game()
 {}
 
 Game::~Game()
-{}
+{
+    Mix_HaltMusic();
+Mix_FreeMusic(musicaFondo);
+Mix_CloseAudio();
+Mix_Quit();
+
+}
 
 void Game::init(const char* title, int width, int height, bool fullscreen)
 {
@@ -54,23 +54,23 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
     
     currentState = new Menu();
     currentState->init(this);
-    
-    
-//    fondo = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/Ocean.png", renderer);
-//    
-//    cofre = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/cofre.png", renderer);
-//    
-//    titulo = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/TituloJuego.png", renderer);
-//    
-//    start = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/startGame.png", renderer);
-//    start->setHoverTexture("/Users/jmea/Documents/Juego/Juego/assets/startSelc.png", renderer);
-//    
-//    load = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/loadGame.png", renderer);
-//    load->setHoverTexture("/Users/jmea/Documents/Juego/Juego/assets/loadSelc.png", renderer);
-//    
-//    settings = new Objetos("/Users/jmea/Documents/Juego/Juego/assets/settings.png", renderer);
-//    settings->setHoverTexture("/Users/jmea/Documents/Juego/Juego/assets/settingsSelc.png", renderer);
-//    
+
+    Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
+
+
+    if (!Mix_OpenAudio(0, nullptr)) {
+        std::cout << "Error al abrir audio: " << SDL_GetError() << std::endl;
+    }
+
+    // Cargar la música
+    musicaFondo = Mix_LoadMUS("assets/loop.mp3");
+    if (!musicaFondo) {
+        std::cout << "Error al cargar la música: " << SDL_GetError() << std::endl;
+    }
+
+    if (audioActivo && !Mix_PlayingMusic()) {
+    Mix_PlayMusic(musicaFondo, -1);
+    }
     
     
 }
@@ -104,33 +104,6 @@ void Game::handleEvents()
             }
         }
     
-
-
-	
-
-        
-            /*
-        case SDL_EVENT_MOUSE_MOTION: {
-            int mouseX = event.motion.x;
-            int mouseY = event.motion.y;
-            
-            if (start->isClicked(mouseX, mouseY)) {
-                start->setHovering(true);
-            } else if (!start->isClicked(mouseX, mouseY)){
-                start->setHovering(false);
-            }
-            else if (load->isClicked(mouseX, mouseY)) {
-                load->setHovering(true);
-            }
-            else if (!load->isClicked(mouseX, mouseY)) {
-                load->setHovering(false);
-            }
-            
-            break;
-        }
-             */
-            
-        
 
             
 	    

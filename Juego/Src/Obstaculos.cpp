@@ -1,5 +1,8 @@
 #include "Obstaculos.h"
 
+extern "C" void moverObjeto(int* y, int velocidad);
+
+
 Obstaculos::Obstaculos(const char* archivo, SDL_Renderer* renderer, int x, int y, float velocidad)
     : x(x), posY(static_cast<float>(y)), velocidad(velocidad)
 {
@@ -8,8 +11,17 @@ Obstaculos::Obstaculos(const char* archivo, SDL_Renderer* renderer, int x, int y
 }
 
 void Obstaculos::update() {
-    posY += velocidad;
+
+    int posYint = static_cast<int>(posY);
+
+    moverObjeto(&posYint, static_cast<int>(velocidad));
+
+    posY = static_cast<float>(posYint);
     objeto->setDestR(x, static_cast<int>(posY), ancho, alto);
+
+
+    // posY += velocidad;
+    // objeto->setDestR(x, static_cast<int>(posY), ancho, alto);
 }
 
 void Obstaculos::render() {

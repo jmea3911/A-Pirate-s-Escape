@@ -6,7 +6,55 @@
 //#include "ECS.h"
 //#include "Components.h"
 #include "gameOver.h"
+#include "Menu.h"
+#include <fstream>
 
+bool audioActivo = true;
+
+
+
+
+
+void guardarJuego(int nivel, int destruidos, float velocidad, int obstaculosNivel, int intervalo) {
+    std::ofstream file("save.txt");
+    if (!file.is_open()) {
+        std::cerr << "Error al abrir el archivo para guardar." << std::endl;
+        return;
+    }
+
+    file << "Nivel: " << nivel << std::endl;
+    file << "Destruidos: " << destruidos << std::endl;
+    file << "Velocidad: " << velocidad << std::endl;
+    file << "ObstaculosNivel: " << obstaculosNivel << std::endl;
+    file << "Intervalo: " << intervalo << std::endl;
+
+    file.close();
+    std::cout << "Partida guardada exitosamente." << std::endl;
+}
+
+#include <fstream>
+#include <iostream>
+
+bool cargarJuego(int &nivel, int &destruidos, float &velocidad, int &obstaculosNivel, int &intervalo) {
+    std::ifstream file("save.txt");
+    if (!file.is_open()) {
+        std::cerr << "Error al abrir el archivo para cargar." << std::endl;
+        return false;
+    }
+
+    std::string etiqueta;
+
+    // leer y asignar cada valor
+    file >> etiqueta >> nivel;
+    file >> etiqueta >> destruidos;
+    file >> etiqueta >> velocidad;
+    file >> etiqueta >> obstaculosNivel;
+    file >> etiqueta >> intervalo;
+
+    file.close();
+    std::cout << "Partida cargada exitosamente." << std::endl;
+    return true;
+}
 
 
 
@@ -16,40 +64,120 @@ void Juego::init(Game* game) {
     
     barco = new Objetos("assets/barcoPirata.png", game->getRenderer());
     fondo = new Objetos("assets/fondoJuego.png", game->getRenderer());
+    controles = new Objetos("assets/teclas.png", game->getRenderer());
+
+    pausa = new Objetos("assets/pausa.png", game->getRenderer());
+    guardar = new Objetos("assets/guardar.png", game->getRenderer());
+    guardar->setHoverTexture("assets/guardarSelec.png", game->getRenderer());
+    reanudar = new Objetos("assets/Reanudar.png", game->getRenderer());
+    reanudar->setHoverTexture("assets/ReanudarSelec.png", game->getRenderer());
+
+    for (int i = 1; i <= 5; ++i) {
+    std::string ruta = "assets/NIVEl " + std::to_string(i) + ".png";
+
+    SDL_Texture* texture = Texturas::cargarTextura(ruta.c_str(), game->getRenderer());
+    if (!texture) {
+        std::cout << "Error cargando " << ruta << std::endl;
+        continue;
+    }
+
+    nivelesTexturas.push_back(texture);
+}
+    
+    Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG);
+
+
+    if (!Mix_OpenAudio(0, nullptr)) {
+        std::cout << "Error al abrir audio: " << SDL_GetError() << std::endl;
+    }
+
+    // Cargar la música
+   
+    barcoDest = Mix_LoadWAV("assets/barcoDest.mp3");
+    objetoDest = Mix_LoadWAV("assets/objetodest.mp3");
+    selec = Mix_LoadWAV("assets/selec.mp3");
+    
+
     
 }
 
 void Juego::handleEvents(Game* game, SDL_Event& event) {
-    
-    if (event.type == SDL_EVENT_KEY_DOWN) {
-            switch (event.key.scancode) {
-                case SDL_SCANCODE_LEFT:
-                    barcoX -= barcoVel;
-                    break;
-                case SDL_SCANCODE_RIGHT:
-                    barcoX += barcoVel;
-                    break;
-//                case SDL_SCANCODE_A:
-//                    barcoX -= barcoVel;
-//                    break;
-//                case SDL_SCANCODE_D:
-//                    barcoX += barcoVel;
-//                    break;
-                case SDL_SCANCODE_SPACE: {
-        // 👈 Llaves aquí
-        int proyectilX = rectBarco.x + rectBarco.w / 2 - 5;
-        int proyectilY = rectBarco.y;
-
-        proyectiles.push_back(proyectil(proyectilX, proyectilY));
-        break;
+    // Pantalla de controles
+    if (mostrarControles) {
+        if (event.type == SDL_EVENT_KEY_DOWN) {
+            if (event.key.scancode == SDL_SCANCODE_RETURN) {
+                mostrarControles = false; // Salir de la pantalla de controles
+            }
+        }
+        return; // Mientras muestro controles, no manejo más eventos
     }
 
-                default:
-                    break;
+    // Menú de pausa
+    if (juegoPausado && mostrarMenuPausa) {
+        if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN && event.button.button == SDL_BUTTON_LEFT) {
+            int mouseX = event.button.x;
+            int mouseY = event.button.y;
+
+            if (reanudar->isClicked(mouseX, mouseY)) {
+                Mix_PlayChannel(-1, selec, 0);
+                juegoPausado = false;
+                mostrarMenuPausa = false;
+            }
+            else if (guardar->isClicked(mouseX, mouseY)) {
+                Mix_PlayChannel(-1, selec, 0);
+                guardarJuego(nivel, contadorObstaculosDestruidos, velocidadObstaculos, obstaculosParaSubirNivel, intervaloObstaculo);
+
+                game->changeState(new Menu()); // Regresar al menú principal
             }
         }
 
+        if (event.type == SDL_EVENT_MOUSE_MOTION) {
+            int mouseX = event.motion.x;
+            int mouseY = event.motion.y;
+
+            reanudar->setHovering(reanudar->isClicked(mouseX, mouseY));
+            guardar->setHovering(guardar->isClicked(mouseX, mouseY));
+        }
+
+        return; // Mientras estamos en el menú de pausa, no procesamos más eventos del juego
+    }
+
+    // Eventos del juego
+    if (event.type == SDL_EVENT_KEY_DOWN) {
+        switch (event.key.scancode) {
+            case SDL_SCANCODE_P:
+                juegoPausado = !juegoPausado;
+                mostrarMenuPausa = juegoPausado;
+                break;
+
+            default:
+                // Solo permitir mover el barco si el juego NO está pausado
+                if (!juegoPausado) {
+                    switch (event.key.scancode) {
+                        case SDL_SCANCODE_LEFT:
+                            moverBarco(&barcoX, barcoVel, -1);
+                            break;
+
+                        case SDL_SCANCODE_RIGHT:
+                            moverBarco(&barcoX, barcoVel, 1);
+                            break;
+
+                        case SDL_SCANCODE_SPACE: {
+                            int proyectilX = rectBarco.x + rectBarco.w / 2 - 5;
+                            int proyectilY = rectBarco.y;
+                            proyectiles.push_back(proyectil(proyectilX, proyectilY));
+                            break;
+                        }
+
+                        default:
+                            break;
+                    }
+                }
+                break;
+        }
+    }
 }
+
 
 bool colisiona(const SDL_Rect& a, const SDL_Rect& b) {
     return a.x < b.x + b.w &&
@@ -60,8 +188,10 @@ bool colisiona(const SDL_Rect& a, const SDL_Rect& b) {
 
 
 void Juego::update(Game* game) {
-    
-    
+
+    if (mostrarControles) return;
+
+    if (juegoPausado) return; 
   
       const bool* teclas = SDL_GetKeyboardState(nullptr);
 
@@ -91,16 +221,12 @@ void Juego::update(Game* game) {
 
     
     
-    
-        
-
-        // Generar obstáculos (omitido aquí...)
-
         // Actualizar y chequear colisión
         for (auto it = obstaculos.begin(); it != obstaculos.end(); ) {
             (*it)->update();
 
             if (colisiona(rectBarco, (*it)->getRect())) {
+                Mix_PlayChannel(-1, barcoDest, 0);
                 
                 
                 game->changeState(new GameOver());
@@ -126,7 +252,7 @@ void Juego::update(Game* game) {
                 ? "assets/boulder.png"
                 : "assets/barril.png";
 
-            obstaculos.push_back(new Obstaculos(ruta, game->getRenderer(), xRandom, -80, 1.0f));
+            obstaculos.push_back(new Obstaculos(ruta, game->getRenderer(), xRandom, -80, velocidadObstaculos));
         
         tiempoObstaculo = ahora;
         variacionAleatoria = rand() % 1000;
@@ -165,8 +291,26 @@ for (auto itProyectil = proyectiles.begin(); itProyectil != proyectiles.end(); )
 
             // Eliminar proyectil
             itProyectil = proyectiles.erase(itProyectil);
+            Mix_PlayChannel(-1, objetoDest, 0);
 
             impacto = true;
+
+            // Incrementar contador de obstáculos destruidos
+            contadorObstaculosDestruidos++;
+
+            // Revisar si se debe subir de nivel
+            if (contadorObstaculosDestruidos >= obstaculosParaSubirNivel) {
+                nivel++;
+                velocidadObstaculos *= 1.25f; // Incrementar velocidad en 20%
+                contadorObstaculosDestruidos = 0;
+                obstaculosParaSubirNivel = obstaculosParaSubirNivel * 2;
+                intervaloObstaculo *= 0.7f;
+
+            }
+
+
+
+
             break; // Salir de este ciclo porque el proyectil ya se eliminó
         } else {
             ++itObstaculo;
@@ -178,19 +322,33 @@ for (auto itProyectil = proyectiles.begin(); itProyectil != proyectiles.end(); )
     }
 }
 
-    
-    
+       
+
 
 }
 
 void Juego::render(Game* game) {
+
+    if (mostrarControles) {
+
+    fondo->setDestR(0, 0, 1800, 1200);
+    fondo->Render();
+
+        controles->setDestR(600, 300, 600, 600);
+        controles->Render();
+       
+
+        return; // Mientras muestro controles, no renderizo el juego
+    }
+
+    
     
     
 
     SDL_Event event;
     SDL_PollEvent(&event);
     
-    fondo->setDestR(0, 0, 1800, 1200);
+    //fondo->setDestR(0, 0, 1800, 1200);
     fondo->Render();
     
     barco->setDestR(barcoX, barcoY, 160, 240);
@@ -204,10 +362,33 @@ void Juego::render(Game* game) {
         proyectil.render(game->getRenderer());
     }
 
+    if (nivel >= 1 && nivel <= 5) {
+    SDL_FRect rectNivel = {50.0f, 50.0f, 300.0f, 91.0f}; // Ajusta posición y tamaño
+
+    SDL_RenderTexture(game->getRenderer(), nivelesTexturas[nivel - 1], NULL, &rectNivel);
+}
+
+    if (juegoPausado) {
+
+        pausa->setDestR(302, 188, 1196, 825);
+        pausa->Render();
+        reanudar->setDestR(668,540,463,108);
+        reanudar->Render();
+        guardar->setDestR(543,700,713,108);
+        guardar->Render();
+
+    
+    }
   
     
 }
 
 void Juego::onExit(Game* game) {
+
+    for (auto& textura : nivelesTexturas) {
+    SDL_DestroyTexture(textura);
+    }
+    nivelesTexturas.clear();
+
     
 }
