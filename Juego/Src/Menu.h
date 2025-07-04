@@ -31,7 +31,7 @@ public:
     void render(Game* game) override;
     void onExit(Game* game) override;
     //Mix_Music* musicaFondo = nullptr;
-    Mix_Chunk* selec = nullptr;
+    //Mix_Chunk* selec = nullptr;
     bool audioActivo = true;
 
 };

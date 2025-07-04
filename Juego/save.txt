@@ -1,5 +1,5 @@
-Nivel: 1
-Destruidos: 2
-Velocidad: 1
-ObstaculosNivel: 15
-Intervalo: 1500
+Nivel: 2
+Destruidos: 5
+Velocidad: 1.25
+ObstaculosNivel: 30
+Intervalo: 1050

@@ -6,6 +6,8 @@
 using namespace std;
 
 Mix_Music* musicaFondo = nullptr;
+Mix_Chunk* selec = nullptr;
+
 
 
 
@@ -67,6 +69,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
     if (!musicaFondo) {
         std::cout << "Error al cargar la música: " << SDL_GetError() << std::endl;
     }
+    selec = Mix_LoadWAV("assets/selec.mp3");
 
     if (audioActivo && !Mix_PlayingMusic()) {
     Mix_PlayMusic(musicaFondo, -1);

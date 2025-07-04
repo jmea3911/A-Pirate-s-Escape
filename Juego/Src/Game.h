@@ -9,6 +9,7 @@
 #include <SDL3_mixer/SDL_mixer.h>
 
 extern Mix_Music* musicaFondo;
+extern Mix_Chunk* selec;
 
 
 

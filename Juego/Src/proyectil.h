@@ -2,6 +2,10 @@
 
 #include <SDL3/SDL.h>
 
+extern "C" void moverProyectil(float* y, float velocidad);
+
+
+
 class proyectil {
 public:
     SDL_FRect rect;      // Rectángulo del proyectil

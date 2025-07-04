@@ -95,7 +95,7 @@ void Juego::init(Game* game) {
    
     barcoDest = Mix_LoadWAV("assets/barcoDest.mp3");
     objetoDest = Mix_LoadWAV("assets/objetodest.mp3");
-    selec = Mix_LoadWAV("assets/selec.mp3");
+    //selec = Mix_LoadWAV("assets/selec.mp3");
     
 
     
@@ -128,6 +128,7 @@ void Juego::handleEvents(Game* game, SDL_Event& event) {
                 guardarJuego(nivel, contadorObstaculosDestruidos, velocidadObstaculos, obstaculosParaSubirNivel, intervaloObstaculo);
 
                 game->changeState(new Menu()); // Regresar al menú principal
+                return;
             }
         }
 

@@ -21,7 +21,7 @@ SRC = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC))
 
 # Archivos NASM
-ASM = $(ASM_DIR)/moverObjeto.asm $(ASM_DIR)/moverBarco.asm
+ASM = $(ASM_DIR)/moverObjeto.asm $(ASM_DIR)/moverBarco.asm $(ASM_DIR)/moverProyectil.asm
 ASM_OBJ = $(ASM:.asm=.o)
 
 # Regla por defecto: compilar todo

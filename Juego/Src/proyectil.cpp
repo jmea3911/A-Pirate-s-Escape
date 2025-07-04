@@ -9,7 +9,8 @@ proyectil::proyectil(int x, int y) {
 }
 
 void proyectil::mover() {
-    rect.y -= velocidad; // Mueve hacia arriba
+    moverProyectil(&rect.y, velocidad);
+
 }
 
 void proyectil::render(SDL_Renderer* renderer) {
